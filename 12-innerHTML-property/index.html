@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>element-innerHTML</title>
+</head>
+<body>
+    <h3>To do List</h3>
+    <ul id="todo-list"> 
+        <!-- <li>Take a shower</li>
+        <li>Have a dinner</li>
+        <li>Go to bed</li>  -->
+    </ul>
+
+    <script>
+        var todoList = [
+            'Take a Shower',
+            'Have a dinner',
+            'Go to bed'
+        ];
+
+        var htmlList = document.getElementById('todo-list');
+        var content = todoList.map(function(item) {
+            return '<li>' + item + '</li>'
+        });
+
+        console.log(content);
+
+        htmlList.innerHTML = content.join('');
+    </script>
+</body>
+</html>
