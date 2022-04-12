@@ -3,55 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>LocalStorage</title>
 </head>
 <body>
-    <span>Age: </span>
-    <select  id="filter-age">
-        <option>18</option>
-        <option>20</option>
-        <option>21</option>
-        <option>22</option>
-    </select>
-    <table id="student-table">  
-    </table>
-
-
-
+    <h3>To do List</h3>
+    <button id="add-Btn">Add</button>
+    <input type="text" id="new-item"/>
+    <ul id="todo-list"> 
+        <!-- <li>Take a shower</li>
+        <li>Have a dinner</li>
+        <li>Go to bed</li>  -->
+    </ul>
     <script>
-        var ageFilter = document.getElementById('filter-age')
-        ageFilter.addEventListener('change', onAgeFilterChange);
+        var todoListKey = 'todoList';
+        // var todoList = [
+        //     'Have a shower',
+        //     'Have a Dinner',
+        //     'Make my bed'
+        // ];
+        var dataString = localStorage.getItem(todoListKey);
+        var todoList;
+        if(dataString) {
+            todoList = JSON.parse(dataString);
+        }else {
+            todoList = [];
+        }
+        var addBtn = document.getElementById('add-Btn');
+        addBtn.addEventListener('click', addItem);
 
-       function onAgeFilterChange() {
-           // get current value of the select
-           var valueSelected = parseInt(ageFilter.value);
-           // Filter the current studen list by the select value
-            var filterStudents = students.filter(function(student){
-                return student.age === valueSelected;
-            });
-           // render
-           render(filterStudents);
-       }
+        function addItem() {
+            // get value of the btn add
+            var input  = document.getElementById('new-item') 
+            var newItem = input.value;
+            // add newitem on the todoList
+            todoList.push(newItem);
+            //render
+            render();
+            input.value = '';
 
-        var students = [
-            {name : 'Minh', age : 20},
-            {name : 'Hoang', age :18},
-            {name : 'Long', age : 21},
-            {name : 'Hai', age : 22}
-        ];
 
-        console.log(students)
-
-        function render(students) {
-            var studentTable = document.getElementById('student-table')
-            var content = students.map(function(student) {
-                return '<tr><td>'  + student.name + '</td><td>' + student.age + '</td></tr>'   
-            });
-            console.log(content)
-            studentTable.innerHTML = content.join('');
+        // localStorage
+        localStorage.setItem(todoListKey, JSON.stringify(todoList));
         }
 
-        render(students);
+        function render() {
+            var htmlList = document.getElementById('todo-list');
+            var content = todoList.map(function(item) {
+                return '<li>' + item + '</li>';
+            });
+
+            htmlList.innerHTML = content.join('');
+        }
+
+        render();
+
+
     </script>
 </body>
 </html>
