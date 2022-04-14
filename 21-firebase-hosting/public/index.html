@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LocalStorage</title>
+</head>
+<body>
+    <h3>To do List</h3>
+    <button id="add-Btn">Add</button>
+    <input type="text" id="new-item"/>
+    <ul id="todo-list"> 
+        <!-- <li>Take a shower</li>
+        <li>Have a dinner</li>
+        <li>Go to bed</li>  -->
+    </ul>
+    <script>
+        var todoListKey = 'todoList';
+        // var todoList = [
+        //     'Have a shower',
+        //     'Have a Dinner',
+        //     'Make my bed'
+        // ];
+        var dataString = localStorage.getItem(todoListKey);
+        var todoList;
+        if(dataString) {
+            todoList = JSON.parse(dataString);
+        }else {
+            todoList = [];
+        }
+        var addBtn = document.getElementById('add-Btn');
+        addBtn.addEventListener('click', addItem);
+
+        function addItem() {
+            // get value of the btn add
+            var input  = document.getElementById('new-item') 
+            var newItem = input.value;
+            // add newitem on the todoList
+            todoList.push(newItem);
+            //render
+            render();
+            input.value = '';
+
+
+        // localStorage
+        localStorage.setItem(todoListKey, JSON.stringify(todoList));
+        }
+
+        function render() {
+            var htmlList = document.getElementById('todo-list');
+            var content = todoList.map(function(item) {
+                return '<li>' + item + '</li>';
+            });
+
+            htmlList.innerHTML = content.join('');
+        }
+
+        render();
+
+
+    </script>
+</body>
+</html>
